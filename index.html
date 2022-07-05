@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integração - Eventos</title>
+    <link rel="stylesheet" href="index.css"/>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+  </head>
+
+  <body>
+    <header class="headerContainer">
+        <div class="logo">
+            <img src="https://www.argusolutions.com.br/wp-content/uploads/2021/06/Argus-Logotipo-1.png">
+        </div>
+      
+    </header>
+
+    <div class="navbar">
+        <h2>Integração - Eventos</h2>
+        <ul class="nav">
+            <li>
+                <a href="#Documentação">
+                    <span>Introdução</span>
+                </a>
+            <li>
+                <a href="#Campos">
+                    <span>Campos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#Type_event_1">
+                    <span>Tipos de evento</span>
+                </a>
+            </li>
+            <li>
+                <a href="#dados via cliente Pusher">
+                    <span>Dados via cliente Pusher</span>
+                </a>
+            </li>
+            <li>
+                <a href="#Exemplo de Implementação">
+                    <span>Exemplo de Implementação</span>
+                </a>
+            </li>
+            <li>
+        </ul>
+    </div>
+
+    <main class="mainContainer">
+        <div class="formatoContainer">
+            <h1><a name="Documentação">Integração de dados - Serviço em tempo real – Pusher</a></h1>
+            <p>Formato de pacote enviado:</p>
+            <div class="codeContainer">
+                <div class="bolinhas">
+                    <div class="bolinha" style="background: #FF6054;"></div>
+                    <div class="bolinha" style="background: #FEBF30;"></div>
+                    <div class="bolinha" style="background: #2BC942;"></div>
+                </div>
+                <pre>
+                    <code>
+    {
+
+        "Operation": < string >,
+        "Fleet": < string >,
+        "Event": < string >,
+        "alarm_time": aaaa-dd- hh:mm:ss,
+        "Speed": < string >,
+        "Lat": xx.xxxxxxxxxxxxxxx,
+        "Long": -xx.xxxxxxxxxxxxxx,
+        "Id": < string >,
+                        
+    }, 
+                    </code>
+                </pre>
+            </div>
+        </div>
+
+        <div class="camposContainer">
+            <h2><a name="Campos"></a>Campos</h2>
+            <p><b>"operation"</b>: Operação;</p>
+            <p><b>"Fleet"</b>: Placa do veículo;</p>
+            <p><b>"Event"</b>:  Tipo do evento;</p>
+            <p><b>"Alarm_Time"</b>:  Dia e hora da ocorrencia do evento;</p>
+            <p><b>"Speed":</b>:  Velocidade do veículo no momento do evento;</p>
+            <p><b>"Lat":</b>: Latitude do veículo no momento do evento;</p>
+            <p><b>"long":</b>: Longitude do veículo no momento do evento;</p>
+            <p><b>"Id"</b>: Identificador do registro;</p>
+        </div>
+       
+
+        <div class="exemploContainer">
+            
+
+        <div class="tiposSonolenciaContainer">
+            <h2><a name="Type_event_1"></a>Os tipos de eventos podem ser:</h2>
+            <p>• Bocejo;</p>
+            <p>• Celular;</p>
+            <p>• Sonolência N1;</p>
+            <p>• Sonolência N2;</p>
+            <p>• Oclusão;</p>
+            <p>• Sem Cinto;</p>
+            
+        </div>
+
+       
+        <div class="dadosClienteContent">
+            <h2><a name="dados via cliente Pusher"></a>Recebimento dos dados via cliente Pusher:</h2>
+            <p>Para integração, o serviço de mensageria Pusher requer a implementação de um consumidor para os pacotes enviados.</p>
+            <br>
+            <p>Abaixo, segue um exemplo de um boilerplate consumidor do Pusher em Javascript embebido em HTML, porém outras opções de implementação podem ser acessadas em: <b><u>https://pusher.com/docs/</u></b>.</p>
+            <br>
+            <p>Os pacotes serão acessados através de um <b>Cluster</b> e de uma <b>Chave de Cliente</b>, ambos enviados com instruções para acesso aos dados.</p>
+            <br>
+            <p>Os pacotes podem ser acessados através do referido script pela variável <b>data</b>.</p>
+        </div>
+
+        <div class="exemploContainer">
+            <h2><a name="Exemplo de Implementação"></a>Exemplo de Implementação</h2>
+            <div class="codeContainer">
+                <div class="bolinhas">
+                    <div class="bolinha" style="background: #FF6054;"></div>
+                    <div class="bolinha" style="background: #FEBF30;"></div>
+                    <div class="bolinha" style="background: #2BC942;"></div>
+                </div>
+                <pre>
+                    <code>
+            
+    var pusher = new Pusher( < CLIENT_KEY >, 
+      cluster: < CLIENT_CLUSTER >
+    });
+            
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('insert', function(data));
+            console.log(JSON.stringify(data));
+            p = document.creatElement("p");
+            p.innerHTML = JSON.stringify(data);
+            document.body.append(p); 
+    });
+                    </code>
+                </pre>
+            </div>
+            <p>As credenciais para acessar o serviço (iniciar a operação para receber intervenções) serão dadas pelas credenciais  CLIENT_KEY e CLIENT_CLUSTER </p>
+            <div class="codeMenorContainer">
+                <div class="bolinhas">
+                    <div class="bolinha" style="background: #FF6054;"></div>
+                    <div class="bolinha" style="background: #FEBF30;"></div>
+                    <div class="bolinha" style="background: #2BC942;"></div>
+                </div>
+                <pre>
+                    <code>
+<b> client_key = < chave fornecida >
+ client_cluster = < cluster fornecido >
+</b>
+                    </code>
+                </pre>
+            </div>
+        </div>
+        <footer>
+            <div class="footer">
+                <p>&copy; 2022 • Developed by <b>Argus Solutions.</b></p>
+            </div>
+        </footer>
+    </main>
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>
